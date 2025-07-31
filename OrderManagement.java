@@ -5,14 +5,16 @@ public class OrderManagement {
         Products products = new Products();
         Order order = new Order();
         
+        
 
         //User interaction and user processing flow
-       menu.promptUserForDetails();
+       User user = menu.promptUserForDetails();
        order = displayUserIdAndGetUserInput(menu, products, order);
        menu.promptUserToUpdateCart(order.getCart(), products.getProductsList());
        menu.displayUserCart(order.getCart(), order.getTotalAmount());
-       menu.processPayment(order.getTotalAmount());
-       
+       menu.processPayment(order.getTotalAmount(), order, user);
+    //    LoggerDetails.logUserOrder("User Name", order.getCart(), order.getTotalAmount());
+
     }
 
 

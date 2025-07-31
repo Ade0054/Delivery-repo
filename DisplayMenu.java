@@ -108,7 +108,7 @@ public class DisplayMenu {
     }
  }
 
- public void processPayment(double totalAmount) {
+ public void processPayment(double totalAmount, Order order, User user) {
     System.out.println("Select a payment method:");
     System.out.println("1. Credit Card");
     System.out.println("2. Bank Transfer");
@@ -142,6 +142,7 @@ public class DisplayMenu {
     } else if(paymentMethod instanceof Cash) {
         System.out.println("Payment method used: Cash");
     }
- }
 
+    LoggerDetails.logUserOrder(user.getName(), order.getCart(), order.getTotalAmount());
+ }
 }
