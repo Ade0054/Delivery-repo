@@ -1,6 +1,10 @@
+package service;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+
+import model.Products;
 
 
 
@@ -27,7 +31,7 @@ System.out.println("Log Entry: " + logEntry.toString());
 
 
 
-try(FileWriter writer = new FileWriter("orderLog.txt", true)) {
+try(FileWriter writer = new FileWriter("orderLog.txt", false)) {
     writer.write(logEntry.toString() + "\n");
     System.out.println("Order details logged successfully." );
 }catch (IOException e) {

@@ -1,3 +1,10 @@
+package main;
+
+
+import UI.DisplayMenu;
+import model.Order;
+import model.Products;
+import model.User;
 
 public class OrderManagement {
     public static void main(String[] args) {
@@ -13,7 +20,6 @@ public class OrderManagement {
        menu.promptUserToUpdateCart(order.getCart(), products.getProductsList());
        menu.displayUserCart(order.getCart(), order.getTotalAmount());
        menu.processPayment(order.getTotalAmount(), order, user);
-    //    LoggerDetails.logUserOrder("User Name", order.getCart(), order.getTotalAmount());
 
     }
 

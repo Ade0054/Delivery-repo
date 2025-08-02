@@ -1,10 +1,12 @@
+package model;
+
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
+// import java.util.Scanner;
 
 public class Order {
-    private String productName;
-    private double productPrice;
+    // private String productName;
+    // private double productPrice;
     double totalAmount;
 
     private final Products products = new Products();
@@ -43,7 +45,7 @@ public class Order {
 
 
     public void placeOrder(List<Products> products) {
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         // boolean shopping = true;
 
         

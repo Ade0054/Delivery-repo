@@ -1,7 +1,9 @@
-public class BankTransfer implements PaymentMethod {
-     @Override
+package payment;
+
+public class Cash implements PaymentMethod {
+    @Override
     public void processPayment(double totalAmount) {
-        System.out.println("Processing bank transfer payment of $" + totalAmount);
+        System.out.println("Processing cash payment of $" + totalAmount);
     }
 
     @Override
@@ -11,6 +13,6 @@ public class BankTransfer implements PaymentMethod {
 
     @Override
     public String getPaymentMethod() {
-        return "Bank Transfer";
+        return "Cash";
     }
 }
