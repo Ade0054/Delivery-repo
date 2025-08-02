@@ -1,7 +1,7 @@
 package main;
 
 
-import UI.DisplayMenu;
+import ui.DisplayMenu;
 import model.Order;
 import model.Products;
 import model.User;
