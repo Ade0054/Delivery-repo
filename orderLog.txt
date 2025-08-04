@@ -1,1 +1,1 @@
-Adebowale Kundus ordered: [Electric Kettle - $30.0, Toaster - $40.0, Hair Dryer - $60.0] Total Amount: $130.0
+adeyinka ordered: [Hair Dryer - $60.0, Electric Kettle - $30.0, Toaster - $40.0, Blender - $80.0] Total Amount: $210.0
