@@ -15,14 +15,12 @@ public class LoggerDetails {
         System.out.println("Logging user order details...");
         StringBuilder logEntry = new StringBuilder();
 
-
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String safeName = name.replaceAll("//s+", "_").toLowerCase();
+        String safeFileName = "src/resources/order_" + safeName + ".txt";
 
         logEntry.append(name).append(" ordered: [");
-
-            String safeName = name.replaceAll("//s+", "_").toLowerCase();
-            String safeFileName = "src/resources/order_" + safeName + ".txt";
 
            for (Products product : cart) {
             logEntry.append(product.getName())
@@ -40,7 +38,7 @@ logEntry.append("\n");
 logEntry.append("Order logged at: ").append(now.format(formatter));
 logEntry.append("\n");
 
-System.out.println("Log Entry: " + logEntry.toString());
+//System.out.println("Log Entry: " + logEntry.toString());
 
 
 

@@ -1,0 +1,3 @@
+Almajiri ordered: [Microwave Oven - $200.0, Washing Machine - $700.0, Refrigerator - $1500.0] Total Amount: $2400.0
+Order logged at: 2025-08-08 08:25:43
+
