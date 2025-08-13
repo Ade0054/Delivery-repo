@@ -158,4 +158,9 @@ public class Order {
       totalAmount = total;
     }
 
+    public void addProduct(Products product) {
+        cart.add(product);
+        totalAmount += product.getPrice();
+    }
+
 }
