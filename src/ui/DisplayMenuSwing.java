@@ -8,6 +8,7 @@ import payment.*;
 import service.LoggerDetails;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
 import java.awt.*;
 import java.util.List;
 
@@ -31,6 +32,27 @@ public class DisplayMenuSwing extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
+        JTextField searchArea = new JTextField(10);
+        searchArea.setBorder(BorderFactory.createTitledBorder("Search"));
+
+        searchArea.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filterProducts(searchArea.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filterProducts(searchArea.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filterProducts(searchArea.getText());
+            }
+        });
+
+
         // --- LEFT: Product List ---
         for (Products p : products) {
             productListModel.addElement(p.getId() + ". " + p.getName() + " - $" + p.getPrice());
@@ -52,10 +74,16 @@ public class DisplayMenuSwing extends JFrame {
         addButton.addActionListener(e -> {
             int index = productList.getSelectedIndex();
             if (index != -1) {
-                Products selected = products.get(index);
-                order.addProduct(selected);
-                cartListModel.addElement(selected.getName() + " - $" + selected.getPrice());
-                updateTotal();
+                String selectedValue = productListModel.getElementAt(index);
+                int productId = Integer.parseInt(selectedValue.split("\\.")[0].trim());
+                Products selected = products.stream()
+                                .filter(p -> p.getId() == productId).findFirst().orElse(null);
+                if(selected != null) {
+                    order.addProduct(selected);
+                    cartListModel.addElement(selected.getName() + " - $" + selected.getPrice());
+                    updateTotal();
+                }
+
             }
         });
 
@@ -94,7 +122,11 @@ public class DisplayMenuSwing extends JFrame {
         bottomPanel.add(totalLabel);
 
         // --- Add components ---
-        add(productScroll, BorderLayout.WEST);
+        JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BorderLayout(5, 5));
+        leftPanel.add(searchArea, BorderLayout.NORTH);
+        leftPanel.add(productScroll, BorderLayout.CENTER);
+        add(leftPanel, BorderLayout.WEST);
         add(cartScroll, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.EAST);
         add(bottomPanel, BorderLayout.SOUTH);
@@ -143,6 +175,16 @@ public class DisplayMenuSwing extends JFrame {
                         "\nPayment: " + options[choice]);
 
         dispose(); // Close after payment
+    }
+
+    private void filterProducts(String query) {
+        productListModel.clear();
+        for(Products p : products) {
+            String productText = p.getId() + ". " + p.getName() + " -$" + p.getPrice();
+            if(p.getName().toLowerCase().contains(query.toLowerCase()) || String.valueOf(p.getId()).contains(query)) {
+                productListModel.addElement(productText);
+            }
+        }
     }
 
 }

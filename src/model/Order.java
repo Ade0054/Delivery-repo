@@ -137,8 +137,12 @@ public class Order {
         System.out.println("Total: $" + total);
     }
 
-    public void addProductToOrderList(int productIndex) {
-      for(Products product : products.getProductsList()) {
+    public void addProductToOrderList(int productIndex, List<Products> productList) {
+        if(productList == null) {
+            System.out.println("Product list is empty");
+            return;
+        }
+      for(Products product : productList) {
           if(product.getId() == productIndex) {
               cart.add(product);
               System.out.println(product.getName() + " has been added to your cart for $" + product.getPrice());

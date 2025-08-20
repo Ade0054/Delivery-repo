@@ -1,8 +1,12 @@
 package main;
 
 
+import dao.ProductDAO;
+import db.DbConnectivity;
 import ui.DisplayMenu;
 import ui.DisplayMenuSwing;
+
+import java.sql.Connection;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -15,11 +19,22 @@ public class OrderManagement {
 
         boolean useGUI = true;
 
+        DbConnectivity connectivity = new DbConnectivity();
+        Connection connection = connectivity.connect("jdbc:postgresql://localhost:5432/products_db", "postgres", "Methodoverriding@$1");
+
+        //DAO operations
+        ProductDAO dao = new ProductDAO();
+        dao.createTable(connection, "Products");
+//        dao.insertAllProducts(connection);
+        List<Products> productFromDb = dao.getAllProducts(connection);
+        Products products = new Products();
+        products.setProductsList(productFromDb);
+        List<Products> productList = products.getProductsList();
+
+
         if (useGUI) {
             // GUI mode
             SwingUtilities.invokeLater(() -> {
-                Products products = new Products();
-                List<Products> productList = products.getProductsList();
                 String name = JOptionPane.showInputDialog("Enter your name:");
                 if (name == null || name.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Name cannot be empty!");
@@ -33,15 +48,14 @@ public class OrderManagement {
         } else {
 
             DisplayMenu menu = new DisplayMenu();
-            Products products = new Products();
             Order order = new Order();
 
 
 
             //User interaction and user processing flow
             User user = menu.promptUserForDetails();
-            order = displayUserIdAndGetUserInput(menu, products, order);
-            menu.promptUserToUpdateCart(order.getCart(), products.getProductsList());
+            order = displayUserIdAndGetUserInput(menu, productList, order);
+            menu.promptUserToUpdateCart(order.getCart(), productList);
             menu.displayUserCart(order.getCart(), order.getTotalAmount());
             menu.processPayment(order.getTotalAmount(), order, user);
 
@@ -50,11 +64,11 @@ public class OrderManagement {
     }
 
 
-    private static Order displayUserIdAndGetUserInput(DisplayMenu menu, Products products, Order order) {
+    private static Order displayUserIdAndGetUserInput(DisplayMenu menu, List<Products> products, Order order) {
         String choice;
         do {
-            int productIndex = menu.promptProductionSelection(products.getProductsList());
-            order.addProductToOrderList(productIndex);
+            int productIndex = menu.promptProductionSelection(products);
+            order.addProductToOrderList(productIndex, products);
             System.out.println("print total:::: " + " $" + order.getTotalAmount());
             choice = menu.promptUserForFurtherProductInput();
         }while (choice.equalsIgnoreCase("Y"));
